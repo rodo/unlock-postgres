@@ -23,3 +23,11 @@ unlock-pg
 
 # Go workspace file
 go.work
+
+# generated files
+*.csv
+*.gz
+*.tar
+
+# emacs backup files
+*~

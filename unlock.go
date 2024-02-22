@@ -32,7 +32,7 @@ func init() {
 func main() {
 
 	if version {
-		fmt.Println("unlock-pg 0.0.1")
+		fmt.Println("unlock-pg 0.0.2")
 		os.Exit(0)
 	}
 
@@ -48,11 +48,12 @@ func main() {
 		port = os.Args[5]
 	} else {
 		// If not provided as command line arguments, read from environment variables
-		host = os.Getenv("PGHOST")
+		host = getEnv("PGHOST", "localhost")
+		port = getEnv("PGPORT", "5432")
 		username = os.Getenv("PGUSER")
 		password = os.Getenv("PGPASSWORD")
 		dbname = os.Getenv("PGDATABASE")
-		port = os.Getenv("PGPORT")
+
 		appname = getEnv("PGAPPNAME", "unlock-postgres")
 	}
 
@@ -169,7 +170,7 @@ func export(connectionString string, filename string, query string) {
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		fmt.Println("Error connecting to the database:", err)
-		return
+		os.Exit(1)
 	}
 	defer db.Close()
 
