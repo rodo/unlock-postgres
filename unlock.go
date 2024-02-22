@@ -6,9 +6,14 @@ import (
 	"database/sql"
 	"encoding/csv"
 	"fmt"
+	"flag"
 	"io"
 	"os"
 	_ "github.com/lib/pq"
+)
+
+var (
+	version bool
 )
 
 func getEnv(key, fallback string) string {
@@ -18,7 +23,20 @@ func getEnv(key, fallback string) string {
     return fallback
 }
 
+func init() {
+	flag.BoolVar(&version, "version", false, "Print version")
+	flag.Parse()
+}
+
+
 func main() {
+
+	if version {
+		fmt.Println("unlock-pg 0.0.1")
+		os.Exit(0)
+	}
+
+
 	// Read PostgreSQL connection parameters from command line arguments or environment variables
 	var username, password, dbname, host, port, appname string
 
